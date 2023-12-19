@@ -8,7 +8,6 @@ public class Hangman {
 
         String[] wordList = {"python", "java", "javascript", "kotlin"};
         String wordToGuess = wordList[random.nextInt(wordList.length)];
-        int remainingAttempts = 8;
         int remainingLives = 8;
         StringBuilder guessedWord = new StringBuilder(wordToGuess.length());
 
@@ -19,42 +18,51 @@ public class Hangman {
         System.out.println("HANGMAN");
         System.out.println(guessedWord);
 
-        while (remainingAttempts > 0 && remainingLives > 0) {
+        char[] guessedLetters = new char[26]; // Array to track guessed letters
+        int guessedLetterCount = 0;
+
+        while (remainingLives > 0) {
             System.out.print("Input a letter: > ");
-            char guess = scanner.next().charAt(0);
+            String input = scanner.next();
+
+            if (input.length() != 1 || !Character.isLowerCase(input.charAt(0))) {
+                System.out.println("Please enter a lowercase English letter");
+                continue;
+            }
+
+            char guess = input.charAt(0);
+
+            if (guessedLetters[guess - 'a'] == guess) {
+                System.out.println("You've already guessed this letter");
+                continue;
+            }
 
             boolean letterFound = false;
-
             for (int i = 0; i < wordToGuess.length(); i++) {
-                if (wordToGuess.charAt(i) == guess && guessedWord.charAt(i) == '-') {
+                if (wordToGuess.charAt(i) == guess && guessedWord.charAt(i) != guess) {
                     guessedWord.setCharAt(i, guess);
                     letterFound = true;
                 }
             }
 
             if (!letterFound) {
-                remainingAttempts--;
                 remainingLives--;
-                System.out.println("That letter doesn't appear in the word. Remaining attempts: " + remainingAttempts +
-                        ", Remaining lives: " + remainingLives);
-            } else {
-                System.out.println("Good guess! " + guessedWord);
+                System.out.println("That letter doesn't appear in the word. Remaining lives: " + remainingLives);
             }
 
+            guessedLetters[guessedLetterCount++] = guess;
+
+            System.out.println(guessedWord);
+
             if (guessedWord.toString().equals(wordToGuess)) {
-                System.out.println("Congratulations! You guessed the word: " + wordToGuess);
+                System.out.println("You guessed the word: " + wordToGuess);
                 System.out.println("You survived!");
                 break;
             }
         }
 
-        if (remainingAttempts == 0) {
-            System.out.println("Thanks for playing!");
-            System.out.println("You're out of attempts. The word was: " + wordToGuess);
-        }
-
         if (remainingLives == 0) {
-            System.out.println("You lost!");
+            System.out.println("You lost! The word was: " + wordToGuess);
         }
     }
 }
