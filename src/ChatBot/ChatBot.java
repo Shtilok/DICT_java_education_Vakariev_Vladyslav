@@ -15,21 +15,26 @@ public class ChatBot {
         String userName = scanner.nextLine();
         // Виводимо привітання з ім'ям користувача
         System.out.println("What a great name you have, " + userName + "!");
-
         // Пробуємо вгадати вік користувача
         System.out.println("Let me guess your age.");
         System.out.println("Enter remainders of dividing your age by 3, 5, and 7.");
-
         // Зчитуємо залишки від ділення на 3, 5 і 7
         int remainder3 = scanner.nextInt();
         int remainder5 = scanner.nextInt();
         int remainder7 = scanner.nextInt();
-
         // Визначаємо вік користувача за формулою
         int userAge = (remainder3 * 70 + remainder5 * 21 + remainder7 * 15) % 105;
-
         // Виводимо вгаданий вік
         System.out.println("Your age is " + userAge + "; that's a good time to start programming!");
+
+        // Просимо користувача ввести число для підрахунку
+        System.out.println("Now, let me prove to you that I can count to any number you want!");
+        int userNumber = scanner.nextInt();
+
+        // Підраховуємо та виводимо числа від 1 до введеного числа
+        for (int i = 1; i <= userNumber; i++) {
+            System.out.println(i + "!");
+        }
 
         // Закриваємо Scanner
         scanner.close();
